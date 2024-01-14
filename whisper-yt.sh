@@ -17,12 +17,12 @@ if [[ "$1" == "help" ]]; then
 fi
 
 echo "Downloading from Youtube"
-youtube-dl -f m4a -o audio_temp.m4a $1
+yt-dlp -f m4a -o audio_temp.m4a $1
 echo "Converting to wav"
 ffmpeg -i audio_temp.m4a -ar 16000 -ac 1 -c:a pcm_s16le audio_temp.wav
 echo "Transcribing with Whispernet"
 # adjust paths as necessary
-~/github/whisper.cpp/main -f audio_temp.wav -m ~/github/whisper.cpp/models/ggml-small.en.bin -otxt -pp -nt -t 3 #> "$2.txt"
+~/github/whisper.cpp/main -f audio_temp.wav -m ~/github/whisper.cpp/models/ggml-base.en.bin -otxt -pp -nt -t 3 #> "$2.txt"
 mv audio_temp.wav.txt "$2.txt"
 echo "Done"
 
